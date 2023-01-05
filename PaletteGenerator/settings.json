@@ -3,15 +3,15 @@
     "saturation_priority": "Mid Only",
     "value_priority": "High Only",
     "saturation_cutoff": {
-        "low": 1,
-        "mid": 100,
-        "high": 150,
+        "low": 50,
+        "mid": 120,
+        "high": 180,
         "lim": 255
     },
     "value_cutoff": {
-        "low": 1,
+        "low": 80,
         "mid": 100,
-        "high": 150,
+        "high": 180,
         "lim": 255
     }
 }
