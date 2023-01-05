@@ -3,7 +3,7 @@
 A plugin for [Krita](https://krita.org).
 
 
-## What is Challenge Prompt Maker? 
+## What is Palette Generator? 
  
 *PaletteGenerator* is a docker that  generates color scheme palette randomly or based of the selected scheme. 
 There are 9 color scheme available togenerate from. Works best on srgb profile documents.  
@@ -185,7 +185,7 @@ This plugin main function  are;
  
 
 
-[Video Challenge Prompt Maker in Action](https://drive.google.com/file/d/1ADQ_XU4Yjgyn-OUfrI9FJOPRlLT3hJeI/view?usp=sharing)
+[Video Palette Generator in Action](https://drive.google.com/file/d/1ADQ_XU4Yjgyn-OUfrI9FJOPRlLT3hJeI/view?usp=sharing)
 
 ### Notes
  - This plugin utilizes HSV color model in  generating color.  
@@ -205,8 +205,8 @@ This plugin main function  are;
 ## Downloads - Install - Execute 
 
 ### Download
-- **[ZIP](https://github.com/kaichi1342/ChallengePromptMaker/archive/refs/heads/v.0.1.0.zip)**
-- **[Source](https://github.com/kaichi1342/ChallengePromptMaker)**
+- **[ZIP](https://github.com/kaichi1342/PaletteGenerator/archive/refs/heads/v.0.1.0.zip)**
+- **[Source](https://github.com/kaichi1342/PaletteGenerator)**
 
 ### Install
 
@@ -215,30 +215,30 @@ This plugin main function  are;
 
 **ChallengePromptMaker.zip** archive. 
 3. Restart [Krita](https://krita.org)
-4. Make sure Challenge Prompt Maker is enabled in Plugin Manager. 
-if not enable it by going to Settings -> Configure Krita -> **Python Plugin Manager** and click to check **Challenge Prompt Maker**.
+4. Make sure Palette Generator is enabled in Plugin Manager. 
+if not enable it by going to Settings -> Configure Krita -> **Python Plugin Manager** and click to check **Palette Generator**.
 5. Restart Krita.
-6. View **Challenge Prompt Maker** to your screen by going to Settings -> Dockers -> **Challenge Prompt Maker**
+6. View **Palette Generator** to your screen by going to Settings -> Dockers -> **Palette Generator**
 
 
 ### Tested Platforms
-- Krita 5.1.1 
+- Krita 5.1.4
 
 ### Release Log
 
-2022-10-09  : Version 0.1.0
+2023-01-06  : Version 0.1.0
 - First Released Version  
   
 ## License
 
-### *Challenge Prompt Maker* is released under the GNU General Public License (version 3 or any later version).
+### *Palette Generator* is released under the GNU General Public License (version 3 or any later version).
 
-*Challenge Prompt Maker* is free software: you can redistribute it and/or modify 
+*Palette Generator* is free software: you can redistribute it and/or modify 
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.                               
     
-*Challenge Prompt Maker* is distributed in the hope that it will be useful,
+*Palette Generator* is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU General Public License for more details.

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Krita/PythonPlugin
+X-KDE-Library=PaletteGenerator
+X-Python-2-Compatible=false
+X-Krita-Manual=Manual.html
+Name=Palette Generator
+Comment=Randomly generate color palette based of selected color scheme.
