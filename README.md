@@ -189,7 +189,7 @@ This plugin main function  are;
  
 
 
-[Video Palette Generator in Action](https://drive.google.com/file/d/1ADQ_XU4Yjgyn-OUfrI9FJOPRlLT3hJeI/view?usp=sharing)
+[Video Palette Generator in Action](https://youtu.be/Y6J5JibP2Z4)
 
 ### Notes
  - This plugin utilizes HSV color model in  generating color.  
