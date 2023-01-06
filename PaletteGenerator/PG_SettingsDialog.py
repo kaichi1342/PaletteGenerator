@@ -189,7 +189,7 @@ class SettingsDialog(QDialog):
             elif(prio == "Normal") : self.combo_val.addItem(prio + " Distribution")
             elif "Only" in prio:  
                 word = prio.split()
-                self.combo_sat.addItem("Only " + word[0]+ " Saturated Color")
+                self.combo_val.addItem("Only " + word[0]+ " Value Color")
             else: self.combo_val.addItem("More "+ prio + " Value Color" )
 
         def_sat_idx = self.color_priority_option.index(self.settings["saturation_priority"])
