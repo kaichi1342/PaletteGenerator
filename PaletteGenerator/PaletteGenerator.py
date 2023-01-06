@@ -34,7 +34,7 @@ from PyQt5.QtCore import ( Qt, QSize,  QTimer, QPoint )
 from PyQt5.QtWidgets import ( 
         QVBoxLayout,  QGridLayout,  QHBoxLayout, 
         QPushButton, QWidget, QLabel, QComboBox,
-        QToolButton  
+        QToolButton, QDesktopWidget  
 )
 
 
@@ -71,8 +71,8 @@ class PaletteGenerator(DockWidget):
 
         self.setting_dialog = None
         self.hsv_dialog = None
-        self.svpalette_dialog = None
-        
+        self.svpalette_dialog = None 
+
         self.useFG = False
 
         self.setUI()
@@ -257,8 +257,12 @@ class PaletteGenerator(DockWidget):
         self.moveDialog(self.svpalette_dialog)  
 
     def moveDialog(self, dialog):
-        gp = self.mapToGlobal(QPoint(0, 0))    
-        dialog.move(gp.x() + self.frameGeometry().width() + 10, gp.y() + 30)  
+        gp = self.mapToGlobal(QPoint(0, 0))     
+         
+        if self.x() < ( QDesktopWidget().screenGeometry().width() // 2) : 
+            dialog.move(gp.x() + self.frameGeometry().width() + 10, gp.y() + 30) 
+        else:  
+            dialog.move(gp.x() - (dialog.frameGeometry().width() + 5 )  , gp.y() + 30) 
 
     #Palette Scheme Chooser
     def generatePalette(self):
@@ -266,6 +270,7 @@ class PaletteGenerator(DockWidget):
         
         cm =  self.color_manager 
         cm.reloadSettings(self.settings) 
+        
         if(self.combo_color_opt.currentIndex() == 0):
             self.generateMonochromatic(cm)
         elif(self.combo_color_opt.currentIndex() == 1):
@@ -338,6 +343,7 @@ class PaletteGenerator(DockWidget):
              
         
         self.printHSV() 
+        cm.reloadSettings(self.settings)
             
 
     def generateAccentedAchromatic(self, cm):
@@ -346,9 +352,10 @@ class PaletteGenerator(DockWidget):
 
         self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"]) 
          
+        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]] 
         for r in range(0,  self.grid_count):
             random.seed() 
-            self.color_grid[r][0].setColorHSV( cm.setHue(hsv["hue"], random.randint(-1 * 10, 10)), cm.setSat(), cm.setVal())
+            self.color_grid[r][0].setColorHSV( cm.setHue(hsv["hue"], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())
  
         
         cm.settings["saturation_cutoff"]["low"]   = 0
@@ -377,7 +384,7 @@ class PaletteGenerator(DockWidget):
         
 
     def generateAnalogous(self, cm): 
-
+        
         hsv = self.getHSV(cm)  
 
         self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"]) 
@@ -387,22 +394,24 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hsv["hue"] -  random.randint(25,60)))
         hues.append(cm.setHue(hsv["hue"] +  random.randint(25,60))) 
         random.shuffle(hues)
-         
+
+        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
             
             for c in range(3,  5): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(-2,2) ), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(cv[0],cv[1]) ), cm.setSat(), cm.setVal())  
 
             for c in range(5,  6): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(-2,2) ), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(cv[0],cv[1]) ), cm.setSat(), cm.setVal())  
 
         
         self.printHSV() 
+        cm.reloadSettings(self.settings)
  
         #self.button_generate.setText("Analogous")
         pass
@@ -414,17 +423,19 @@ class PaletteGenerator(DockWidget):
         self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"]) 
         comp_color = cm.setHue(hsv["hue"] + 180) 
      
+        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
             
             for c in range(3,  6): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(comp_color, random.randint(-2,2) ), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(comp_color, random.randint(cv[0],cv[1]) ), cm.setSat(), cm.setVal())  
 
         
         self.printHSV() 
+        cm.reloadSettings(self.settings)
  
 
     def generateSplitComplementary(self, cm): 
@@ -439,22 +450,25 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hsv["hue"] + (180 - random.randint(15,50)))) 
         random.shuffle(hues)
  
+ 
+        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
             
             for c in range(3,  5): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(-2,2) ), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(cv[0],cv[1]) ), cm.setSat(), cm.setVal())  
 
             for c in range(5,  6): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(-2,2) ), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(cv[0],cv[1]) ), cm.setSat(), cm.setVal())  
         #self.button_generate.setText("Split Complementary")
         
         self.printHSV() 
-        pass
+        cm.reloadSettings(self.settings)
+         
 
     def generateDblSplitComplementary(self, cm):
      
@@ -469,24 +483,27 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hues[0] + (180 - random.randint(-5,5))))  
         random.shuffle(hues)  
 
+
+        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
         for r in range(0,  self.grid_count):
             for c in range(0,  2): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
             
             for c in range(2,  4): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
 
             for c in range(4,  5): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
                 
             for c in range(5,  6): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[2], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[2], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
         
-        self.printHSV() 
+        self.printHSV()
+        cm.reloadSettings(self.settings) 
 
     def generateTriadic(self, cm):
          
@@ -500,21 +517,24 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hues[0] + 120)) 
         random.shuffle(hues)  
         
+        
+        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
             
             for c in range(3,  5): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(-2,2) ), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(cv[0],cv[1]) ), cm.setSat(), cm.setVal())  
 
             for c in range(5,  6): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(-2,2) ), cm.setSat(), cm.setVal()) 
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(cv[0],cv[1]) ), cm.setSat(), cm.setVal()) 
             
             
         self.printHSV() 
+        cm.reloadSettings(self.settings)
       
 
     def generateTetradicSquare(self, cm):
@@ -531,24 +551,27 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hues[1] + 90)) 
         random.shuffle(hues)  
         
+        
+        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
         for r in range(0,  self.grid_count):
             for c in range(0,  2): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
             
             for c in range(2,  4): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
 
             for c in range(4,  5): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
                 
             for c in range(5,  6): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[2], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[2], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
         
         self.printHSV() 
+        cm.reloadSettings(self.settings)
         pass
 
     def generateTetradicRectangle(self, cm):
@@ -566,24 +589,26 @@ class PaletteGenerator(DockWidget):
 
         random.shuffle(hues)  
         
+        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
         for r in range(0,  self.grid_count):
             for c in range(0,  2): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hsv["hue"], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
             
             for c in range(2,  4): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[0], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
 
             for c in range(4,  5): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[1], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
                 
             for c in range(5,  6): 
                 random.seed() 
-                self.color_grid[r][c].setColorHSV( cm.setHue(hues[2], random.randint(-2,2)), cm.setSat(), cm.setVal())  
+                self.color_grid[r][c].setColorHSV( cm.setHue(hues[2], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())  
         
         self.printHSV() 
+        cm.reloadSettings(self.settings)
     
     def printHSV(self): 
         if self.hsv_dialog :

@@ -51,12 +51,11 @@ Configuration is available for color odds and ranges, timer setting to categorie
 
 ![Configuration Dialog](./screenshots/ui-02.png)
 
- 
- 
 1. **Saturation Odds** : Changes the odds to favor a range of saturation 
 2. **Saturation Ranges**  : Set up the ranges of saturation points
 3. **Value Odds** : Changes the odds to favor a range of value 
 4. **Value Ranges** : Set up the ranges of value points 
+5. **Group Color Variance** : Set the variation of color within a color group
 
 
 ### *Value and Saturation Ranges Control* 
@@ -176,6 +175,11 @@ Accented Achromatic
 ![Value and Saturation Ranges](./screenshots/ui-c10.png) 
 ![Value and Saturation Ranges](./screenshots/ui-c11.png)
 
+**Sample With Group Color Variance at 40** 
+*Higher Color Variance results in more color*
+
+![Value and Saturation Ranges](./screenshots/ui-c12.png)
+
 ### Functionalities
 
 This plugin main function  are;
@@ -213,7 +217,7 @@ This plugin main function  are;
 1. Open [Krita](https://krita.org)
 2. Got to Tools -> Scripts -> **Import Python Plugins** and select 
 
-**ChallengePromptMaker.zip** archive. 
+**PaletteGenerator.zip** archive. 
 3. Restart [Krita](https://krita.org)
 4. Make sure Palette Generator is enabled in Plugin Manager. 
 if not enable it by going to Settings -> Configure Krita -> **Python Plugin Manager** and click to check **Palette Generator**.
@@ -228,6 +232,11 @@ if not enable it by going to Settings -> Configure Krita -> **Python Plugin Mana
 
 2023-01-06  : Version 0.1.0
 - First Released Version  
+
+2023-01-06  : Version 0.1.1 
+- Add group color variance setting
+- Allow dialog to popup on left when docker is on right side of screen
+
   
 ## License
 
