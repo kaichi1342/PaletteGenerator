@@ -232,6 +232,9 @@ if not enable it by going to Settings -> Configure Krita -> **Python Plugin Mana
 
 2023-01-06  : Version 0.1.0
 - First Released Version  
+
+2023-01-06  : Version 0.1.1
+- First Released Version  
   
 ## License
 
