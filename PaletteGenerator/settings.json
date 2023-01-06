@@ -1,5 +1,6 @@
 {
     "color_scheme": 5,
+    "color_variance": 20.0,
     "saturation_priority": "Mid Only",
     "value_priority": "High Only",
     "saturation_cutoff": {
