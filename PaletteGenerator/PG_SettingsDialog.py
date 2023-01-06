@@ -118,6 +118,9 @@ class SettingsDialog(QDialog):
         self.dsb_val_high.setToolTip("Value Upper Bound Start")
         self.dsb_val_lim.setToolTip("Value Upper Bound Limit") 
  
+        self.label_variance = QLabel("Group Color Variance")
+        self.dsb_color_variance = DoubleSpinBox(2,90,1)
+
 
         self.roll_container.addWidget(self.label_sat, 2, 0, 1, 8)
         self.roll_container.addWidget(self.combo_sat, 3, 0, 1, 8)
@@ -134,6 +137,10 @@ class SettingsDialog(QDialog):
         self.roll_container.addWidget(self.dsb_val_mid,     7, 2, 1, 2)
         self.roll_container.addWidget(self.dsb_val_high,    7, 4, 1, 2)
         self.roll_container.addWidget(self.dsb_val_lim,     7, 6, 1, 2) 
+
+        
+        self.roll_container.addWidget(self.label_variance,     8, 0, 1, 7) 
+        self.roll_container.addWidget(self.dsb_color_variance,     9, 0, 1, 8) 
         
         self.general_container.addWidget(self.frame_color_setting )     
 
@@ -162,6 +169,8 @@ class SettingsDialog(QDialog):
         self.dsb_val_mid.setValue(self.evalSettingValue(self.settings["value_cutoff"]["mid"], 1, 255))
         self.dsb_val_high.setValue(self.evalSettingValue(self.settings["value_cutoff"]["high"], 1, 255))
         self.dsb_val_lim.setValue(self.evalSettingValue(self.settings["value_cutoff"]["lim"], 1, 255))
+
+        self.dsb_color_variance.setValue(self.evalSettingValue(self.settings["color_variance"], 2, 90))
   
         self.color_priority_option = ["Low", "Mid", "High", "Low Only", "Mid Only", "High Only", "Normal", "Equal"]
         
@@ -180,7 +189,7 @@ class SettingsDialog(QDialog):
             elif(prio == "Normal") : self.combo_val.addItem(prio + " Distribution")
             elif "Only" in prio:  
                 word = prio.split()
-                self.combo_val.addItem(word[0]+ " Value Color Only ")
+                self.combo_sat.addItem("Only " + word[0]+ " Saturated Color")
             else: self.combo_val.addItem("More "+ prio + " Value Color" )
 
         def_sat_idx = self.color_priority_option.index(self.settings["saturation_priority"])
@@ -218,6 +227,7 @@ class SettingsDialog(QDialog):
     def saveSettings(self):   
         self.settings["saturation_priority"] = self.color_priority_option[self.combo_sat.currentIndex()]
         self.settings["value_priority"]      = self.color_priority_option[self.combo_val.currentIndex()]
+        self.settings["color_variance"]      = self.dsb_color_variance.value()
 
         self.settings["saturation_cutoff"]["low"]  = int(self.dsb_sat_low.value())
         self.settings["saturation_cutoff"]["mid"]  = int(self.dsb_sat_mid.value())
