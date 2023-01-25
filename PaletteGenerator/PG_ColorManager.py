@@ -75,6 +75,11 @@ class ColorBox(QWidget):
     def toStringHSV(self):
         return "H "+str(self.color.hsvHue())+" S "+str(self.color.hsvSaturation())+" V "+str(self.color.value())
 
+    def getColorHex(self):
+        return self.color.name()
+
+    def toHSV(self):
+        return { "H" : self.color.hsvHue(), "S" : self.color.hsvSaturation(), "V" : self.color.value()}
 
     def getHueName(self):
         hue = self.color.hsvHue()

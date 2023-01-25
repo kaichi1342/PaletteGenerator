@@ -62,6 +62,8 @@ class PaletteGenerator(DockWidget):
         ]
 
         self.loadSettings() 
+        
+        self.stack_limit = 25
 
         self.color_count = 6
         self.grid_count  = 4
@@ -74,6 +76,8 @@ class PaletteGenerator(DockWidget):
         self.svpalette_dialog = None 
 
         self.useFG = False
+
+        self.undo_stack = []
 
         self.setUI()
         self.connectButtons()
@@ -134,7 +138,11 @@ class PaletteGenerator(DockWidget):
 
         self.button_fg =  QToolButton() 
         self.button_fg.setIcon( Krita.instance().icon("showColoringOff") ) 
-              
+        
+        self.button_undo =  QToolButton() 
+        self.button_undo.setIcon( Krita.instance().icon("edit-undo") ) 
+        
+               
         self.button_configure =  QToolButton() 
         self.button_configure.setIcon( Krita.instance().icon("configure-shortcuts") )     
 
@@ -146,6 +154,7 @@ class PaletteGenerator(DockWidget):
 
         self.colorbox_container.addWidget(self.button_generate, 5, 0 , 1, 7)  
         self.colorbox_container.addWidget(self.button_fg, 6, 0, 1, 1) 
+        self.colorbox_container.addWidget(self.button_undo, 6, 3, 1, 1) 
         self.colorbox_container.addWidget(self.button_svpalette, 6, 4, 1, 1) 
         self.colorbox_container.addWidget(self.button_hsvtext, 6, 5, 1, 1) 
         self.colorbox_container.addWidget(self.button_configure, 6, 6, 1, 1) 
@@ -171,6 +180,7 @@ class PaletteGenerator(DockWidget):
         self.button_generate.clicked.connect(self.generatePalette)
         self.button_configure.clicked.connect(self.openSetting)
         self.button_hsvtext.clicked.connect(self.openHSVOutput)
+        self.button_undo.clicked.connect(self.undo)
 
         self.combo_color_opt.currentIndexChanged.connect(self.saveScheme)
 
@@ -292,12 +302,45 @@ class PaletteGenerator(DockWidget):
         else:
             pass
 
+        self.addToUndoStack()
+
+        
+    def addToUndoStack(self):
+        if len(self.undo_stack) >= self.stack_limit:
+            self.undo_stack.pop(0)
+        
+        gen_colors = []
+        for r in range(0,  self.grid_count):
+            gen_colors.append([])
+            for c in range(0,  self.color_count): 
+                gen_colors[r].append(self.color_grid[r][c].toHSV())
+
+        self.undo_stack.append( { "scheme": self.combo_color_opt.currentIndex(), "main" : self.main_color.toHSV()  , "colors" : gen_colors} )
+
+ 
+    def undo(self): 
+        if len(self.undo_stack) > 1:
+            self.undo_stack.pop()
+            to_undo = self.undo_stack[len(self.undo_stack)-1] 
+
+            self.combo_color_opt.setCurrentIndex(to_undo["scheme"])
+
+            self.main_color.setColorHSV(to_undo["main"]["H"], to_undo["main"]["S"], to_undo["main"]["V"]) 
+             
+            gen_colors = to_undo["colors"]
+            
+            for r in range(0,  self.grid_count):
+                for c in range(0,  self.color_count): 
+                    self.color_grid[r][c].setColorHSV(gen_colors[r][c]["H"], gen_colors[r][c]["S"], gen_colors[r][c]["V"]) 
+
+
     def calc_interval(self, start, end, count, floor = 5):
         interval = ( end - start ) // count
         if interval < floor: 
             return floor 
         else:
             return interval
+
 
     def getHSV(self, colmgr):
         if(self.useFG == True):
@@ -306,6 +349,7 @@ class PaletteGenerator(DockWidget):
         else:
             random.seed(datetime.now())
             return { "hue" : colmgr.setHue(), "sat" : colmgr.setSat(), "val" : colmgr.setVal() }
+
      
     #Palette Generator
     def generateMonochromatic(self, cm): 
