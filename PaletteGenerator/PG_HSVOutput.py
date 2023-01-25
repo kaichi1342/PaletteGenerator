@@ -31,14 +31,14 @@ from PyQt5.QtGui import (QStandardItemModel)
 
 
 from PyQt5.QtWidgets import ( 
-        QLabel, QHBoxLayout, QDialog, QWidget, QVBoxLayout
+        QLabel, QHBoxLayout, QDialog, QWidget, QVBoxLayout, QPlainTextEdit
 ) 
  
 class HSVOutPutDialog(QDialog):
     def __init__(self, parent, title = "" ):
         super().__init__(parent)
         
-        self.resize(200,450)
+        self.resize(300,500)
         self.setWindowTitle(title)  
  
         self.setUI() 
@@ -46,7 +46,7 @@ class HSVOutPutDialog(QDialog):
 
     # UI LAYOUT
     def setUI(self):
-        self.output_container = QVBoxLayout() 
+        self.output_container = QHBoxLayout() 
         self.output_container.setContentsMargins(5, 5, 5, 5)
     
         self.setLayout(self.output_container)  
@@ -54,16 +54,23 @@ class HSVOutPutDialog(QDialog):
         self.general_container =  QHBoxLayout()
         self.general_widget = QWidget()
         
-        self.label      = QLabel() 
-        self.output_container.addWidget(self.label) 
+        self.hsvbox      = QPlainTextEdit() 
+        self.output_container.addWidget(self.hsvbox) 
 
-    def printHSV(self): 
-        this_label = self.label
-        this_label.setText(  "")
+        self.hexbox = QPlainTextEdit()
+        self.output_container.addWidget(self.hexbox) 
+
+    def printHSV(self):  
+        self.hsvbox.setPlainText("")
+        self.hexbox.setPlainText("")
         for c in range(0,  self.parent().color_count): 
             for r in range(0,  self.parent().grid_count):
-                this_label.setText(this_label.text() + self.parent().color_grid[r][c].toStringHSV() + "\n")
-            this_label.setText(this_label.text() + "\n")
-     
-    def addToLabel(self, text):
-        self.label.setText(self.label.text()+ text)
+                self.hsvbox.insertPlainText(self.parent().color_grid[r][c].toStringHSV() + "\n")
+                self.hexbox.insertPlainText(self.parent().color_grid[r][c].getColorHex() + "\n")
+
+            self.hsvbox.insertPlainText("\n")
+            self.hexbox.insertPlainText("\n")
+      
+
+    def addToTextArea(self, text):
+        self.hexbox.insertPlainText(text)
