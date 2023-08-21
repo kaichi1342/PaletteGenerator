@@ -189,7 +189,7 @@ This plugin main function  are;
  
 
 
-[Video Palette Generator in Action](https://youtu.be/Y6J5JibP2Z4)
+[Video Palette Generator in Action](https://drive.google.com/file/d/1ADQ_XU4Yjgyn-OUfrI9FJOPRlLT3hJeI/view?usp=sharing)
 
 ### Notes
  - This plugin utilizes HSV color model in  generating color.  
@@ -227,7 +227,6 @@ if not enable it by going to Settings -> Configure Krita -> **Python Plugin Mana
 
 ### Tested Platforms
 - Krita 5.1.4
-- Krita 5.1.5
 
 ### Release Log
 
@@ -238,11 +237,14 @@ if not enable it by going to Settings -> Configure Krita -> **Python Plugin Mana
 - Add group color variance setting
 - Allow dialog to popup on left when docker is on right side of screen
 
-2023-04-23  : Version 0.1.2 
+2023-04-23 : Version 0.1.2
 - Fix bug on color missing color variance setting
 
-2023-04-
-  
+2023-08-21 : Version 0.1.3
+- remove datetime in random.seed
+
+
+
 
 ## License
 
