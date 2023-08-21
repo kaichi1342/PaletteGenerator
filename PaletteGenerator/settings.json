@@ -1,6 +1,6 @@
 {
     "color_scheme": 2,
-    "color_variance": 10.0,
+    "color_variance": 20.0,
     "saturation_priority": "Normal",
     "value_priority": "Normal",
     "saturation_cutoff": {
