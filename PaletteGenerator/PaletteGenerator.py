@@ -60,6 +60,24 @@ class PaletteGenerator(DockWidget):
             "Complementary", "Split Complementary", "Double Split Complementary",
             "Triadic", "Tetradic Square", "Tetradic Rectangle"
         ]
+        self.settings = {
+            "color_scheme"       : 1,
+            "color_variance"     : 5.0,
+            "saturation_priority": "Normal",
+            "value_priority"     : "Normal",
+            "saturation_cutoff"   : {
+                "low" : 0,
+                "mid" : 150,
+                "high": 220,
+                "lim" : 255
+            },
+            "value_cutoff": {
+                "low" : 0,
+                "mid" : 180,
+                "high": 230,
+                "lim" : 255
+            }
+        }
 
         self.loadSettings() 
         
@@ -347,7 +365,7 @@ class PaletteGenerator(DockWidget):
             FG = colmgr.getFGColor(Krita.instance().activeWindow().activeView(), Krita.instance().activeDocument())
             return { "hue" : FG.hsvHue(), "sat" : FG.hsvSaturation(), "val" : FG.value() }
         else:
-            random.seed(datetime.now())
+            random.seed()
             return { "hue" : colmgr.setHue(), "sat" : colmgr.setSat(), "val" : colmgr.setVal() }
 
      

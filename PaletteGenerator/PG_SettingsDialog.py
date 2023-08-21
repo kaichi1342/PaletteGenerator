@@ -140,7 +140,7 @@ class SettingsDialog(QDialog):
 
         
         self.roll_container.addWidget(self.label_variance,     8, 0, 1, 7) 
-        self.roll_container.addWidget(self.dsb_color_variance,     9, 0, 1, 8) 
+        self.roll_container.addWidget(self.dsb_color_variance, 9, 0, 1, 8) 
         
         self.general_container.addWidget(self.frame_color_setting )     
 

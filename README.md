@@ -227,6 +227,7 @@ if not enable it by going to Settings -> Configure Krita -> **Python Plugin Mana
 
 ### Tested Platforms
 - Krita 5.1.4
+- Krita 5.1.5
 
 ### Release Log
 
@@ -237,7 +238,12 @@ if not enable it by going to Settings -> Configure Krita -> **Python Plugin Mana
 - Add group color variance setting
 - Allow dialog to popup on left when docker is on right side of screen
 
+2023-04-23  : Version 0.1.2 
+- Fix bug on color missing color variance setting
+
+2023-04-
   
+
 ## License
 
 ### *Palette Generator* is released under the GNU General Public License (version 3 or any later version).
