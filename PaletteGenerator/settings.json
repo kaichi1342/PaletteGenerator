@@ -1,7 +1,7 @@
 {
-    "color_scheme": 8,
+    "color_scheme": 2,
     "color_variance": 5.0,
-    "saturation_priority": "High",
+    "saturation_priority": "Normal",
     "value_priority": "Normal",
     "saturation_cutoff": {
         "low": 0,
