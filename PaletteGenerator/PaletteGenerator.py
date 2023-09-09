@@ -34,7 +34,7 @@ from PyQt5.QtCore import ( Qt, QSize,  QTimer, QPoint )
 from PyQt5.QtWidgets import ( 
         QVBoxLayout,  QGridLayout,  QHBoxLayout, 
         QPushButton, QWidget, QLabel, QComboBox,
-        QToolButton, QDesktopWidget  
+        QToolButton, QDesktopWidget, QPlainTextEdit  
 )
 
 
@@ -116,7 +116,7 @@ class PaletteGenerator(DockWidget):
         self.setWidget(self.base_widget)
 
         self.base_widget.setMinimumSize(QSize(160,160))
-        self.base_widget.setMaximumSize(QSize(400,450))
+        #self.base_widget.setMaximumSize(QSize(400,450))
 
         self.combo_color_opt  = QComboBox()
         self.combo_color_opt.setObjectName(("Color Scheme")) 
@@ -178,11 +178,19 @@ class PaletteGenerator(DockWidget):
         self.colorbox_container.addWidget(self.button_configure, 6, 6, 1, 1) 
  
         self.main_container.addWidget(self.colorbox_widget)  
+
+        self.main_container.addWidget(self.colorbox_widget)  
  
+        #self.test =  QPlainTextEdit() 
+
+        #self.main_container.addWidget(self.test)  
+
         #COLOR SCHEME 
         for scheme in self.scheme: self.combo_color_opt.addItem(scheme)  
         self.combo_color_opt.setCurrentIndex(self.settings["color_scheme"])
  
+
+
     def canvasChanged(self, canvas):
         if canvas:       
             if canvas.view():
@@ -235,9 +243,9 @@ class PaletteGenerator(DockWidget):
         
 
     def setFGColor(self, color_box):   
-        color_to_set = color_box.getColorForSet(Krita.instance().activeDocument())
+        color_to_set = color_box.getColorForSet(Krita.instance().activeDocument(),  Krita.instance().activeWindow().activeView().canvas())
         Krita.instance().activeWindow().activeView().setForeGroundColor(color_to_set)
-
+ 
 
     def toggleUseFG(self):
         if self.useFG == True:
