@@ -57,17 +57,12 @@ class ColorBox(QWidget):
         self.color.setRgbF(r, g, b, a)
         self.update()
   
-    def getColorForSet(self, doc): 
+    def getColorForSet(self, doc, canvas): 
         color_to_set = ManagedColor(doc.colorModel(), doc.colorDepth(), doc.colorProfile())
-        colorComponents = color_to_set.components()
-        colorComponents[0] = self.color.blueF()
-        colorComponents[1] = self.color.greenF()
-        colorComponents[2] = self.color.redF()
-        colorComponents[3] = self.color.alphaF() 
-
-        color_to_set.setComponents(colorComponents)
-
-        return color_to_set
+        to_set = color_to_set.fromQColor(self.color, canvas) 
+         
+        return to_set
+ 
 
     def toString(self):
         return "Red "+str(self.color.red())+" Green "+str(self.color.green())+" Blue "+str(self.color.blue())+" Alpha "+str(self.color.alpha())
