@@ -209,7 +209,7 @@ This plugin main function  are;
 ## Downloads - Install - Execute 
 
 ### Download
-- **[ZIP](https://github.com/kaichi1342/PaletteGenerator/archive/refs/heads/v.0.1.3.zip)**
+- **[ZIP](https://github.com/kaichi1342/PaletteGenerator/archive/refs/heads/v.0.1.3b.zip)**
 - **[Source](https://github.com/kaichi1342/PaletteGenerator)**
 
 ### Install
@@ -229,6 +229,9 @@ if not enable it by going to Settings -> Configure Krita -> **Python Plugin Mana
 - Krita 5.1.4
 
 ### Release Log
+
+2023-09-09  : Version 0.1.3b
+- Change setupColor to use MangeColor.fromQcolor
 
 2023-01-06  : Version 0.1.0
 - First Released Version  
