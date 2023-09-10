@@ -132,22 +132,13 @@ class ColorGenerator():
     def reloadSatCutOff(self):
         self.val_limit = self.settings["value_cutoff"]
 
-    def getFGColor(self, view, doc):
+    def getFGColor(self, view, doc, canvas):
         color   = view.foregroundColor() 
 
-        config = {
-            "depth"     : doc.colorDepth(),
-            "model"     : doc.colorModel(),
-            "profile"   : doc.colorProfile()
-        }
-
-        color.setColorSpace(config["model"], config["depth"], config["profile"])
-        colorData = color.components() 
+        color.setColorSpace(doc.colorModel(), doc.colorDepth(), doc.colorProfile())
         
-        FGColor = QColor()
-        FGColor.setRgbF(colorData[2], colorData[1], colorData[0], colorData[3]) 
-
-        return FGColor
+        return color.colorForCanvas(canvas)
+         
 
 
     def setHue(self, hue = -1, offset = 0):
