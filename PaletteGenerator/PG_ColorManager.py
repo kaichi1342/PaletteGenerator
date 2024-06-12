@@ -20,7 +20,7 @@
 # generate from.                                                              #
 # -----------------------------------------------------------------------------
   
-
+ 
 from krita import *  
 import random, time
 from datetime import datetime
@@ -49,6 +49,10 @@ class ColorBox(QWidget):
         self.qp.setBrush(self.color)
         self.qp.drawRect(-1, -1, self.geometry().width()+1, self.geometry().height()+1)
  
+    def setQColor(self, color):
+        self.color = color
+        self.update()
+
     def setColorHSV(self,h,s,v):
         self.color.setHsv(h,s,v,255)
         self.update()
@@ -94,25 +98,43 @@ class ColorBox(QWidget):
 
 class ColorGenerator():  
 
-    def __init__(self, parent, settings):  
+    def __init__(self, parent, settings = False):  
         self.hue = 0
         self.sat = 0
         self.val = 0
 
         self.parent     = parent
-        self.settings   = settings
+        self.settings   = settings if settings else self.defaultSetting()
         self.sat_limit  = self.settings["saturation_cutoff"]
         self.val_limit  = self.settings["value_cutoff"] 
         
         super().__init__() 
  
-    def reloadSettings(self, settings):
-        self.settings = settings
-        self.sat_limit = self.settings["saturation_cutoff"]
-        self.val_limit = self.settings["value_cutoff"]
+   
+    def reloadSettings(self, settings = False):
+        self.settings   = settings if settings else self.defaultSetting()
+        self.sat_limit  = self.settings["saturation_cutoff"]
+        self.val_limit  = self.settings["value_cutoff"]
         self.sat_cutoff = self.setCutOffPoint(self.settings["saturation_priority"])
         self.sat_cutoff = self.setCutOffPoint(self.settings["value_priority"])
-
+ 
+    def defaultSetting(self):
+        return {
+            "saturation_priority"   : "High",
+            "value_priority"        : "Normal",
+            "saturation_cutoff": {
+                "low" : 20,
+                "mid" : 60,
+                "high": 130,
+                "lim" : 255
+            },
+            "value_cutoff": {
+                "low" : 20,
+                "mid" : 60,
+                "high": 130,
+                "lim" : 255
+            }
+        }
 
     def setSatCutOff(self, low, mid, high, lim):
         self.sat_limit["low"]  = low 
@@ -129,6 +151,7 @@ class ColorGenerator():
 
     def reloadSatCutOff(self):
         self.sat_limit = self.settings["saturation_cutoff"] 
+
     def reloadSatCutOff(self):
         self.val_limit = self.settings["value_cutoff"]
 
@@ -138,9 +161,16 @@ class ColorGenerator():
         color.setColorSpace(doc.colorModel(), doc.colorDepth(), doc.colorProfile())
         
         return color.colorForCanvas(canvas)
+    
+    def getBGColor(self, view, doc, canvas):
+        color   = view.backgroundColor()  
+
+        color.setColorSpace(doc.colorModel(), doc.colorDepth(), doc.colorProfile())
          
-
-
+        return color.colorForCanvas(canvas)
+    
+   
+    #HUE
     def setHue(self, hue = -1, offset = 0):
         if(hue < 0 ): 
             random.seed()
@@ -183,6 +213,15 @@ class ColorGenerator():
         else: 
             return sat + offset 
 
+    def setCappedSat(self, sat = -1,  offset = 0, rand_offset = False):
+        if(rand_offset): offset = self.randomizedOffset() 
+
+        if(sat + offset > self.sat_limit["lim"]): 
+            return self.sat_limit["lim"] 
+        elif(sat + offset < self.sat_limit["low"]): 
+            return self.sat_limit["low"]  
+        else: 
+            return sat + offset 
 
     #VALUE
     def setVal(self, val = -1, offset = 0, rand_offset = False):
@@ -216,6 +255,17 @@ class ColorGenerator():
         else:  
             return val + offset
 
+    def setCappedVal(self, val = -1,  offset = 0, rand_offset = False ): 
+        if(rand_offset): offset = self.randomizedOffset() 
+
+        if(val + offset > self.val_limit["lim"]):
+            return self.val_limit["lim"] 
+        elif(val + offset < self.val_limit["low"]):  
+            return self.val_limit["low"]  
+        else: 
+            return val + offset 
+
+    #OFFSET
     def randomizedOffset(self):
         random.seed()
         if ( random.randint(1, 500) % 2 == 0 ):
@@ -223,6 +273,7 @@ class ColorGenerator():
         else: 
              return -1 * random.randint(5,20)
 
+    #CUTOFFPOINT
     def setCutOffPoint(self, t):
         if t == "Low":
             return [90,95]
