@@ -328,7 +328,11 @@ class PaletteGenerator(DockWidget):
         
         cm =  self.color_manager 
         cm.reloadSettings(self.settings) 
-        
+
+        for row in self.color_grid: 
+            for color in row:
+                color.setBorder(0)
+
         if(self.combo_color_opt.currentIndex() == 0):
             self.generateMonochromatic(cm)
         elif(self.combo_color_opt.currentIndex() == 1):

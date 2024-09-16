@@ -54,7 +54,7 @@ class ColorBox(QWidget):
         
         self.qp.setPen( QPen(QColor(235, 235, 235), 1) )
         self.qp.drawRect(0, 0, self.geometry().width()-1, self.geometry().height()-1)
-        return True 
+        return True
  
     def getPenColor(self):
         if self.color.value() > 200:
