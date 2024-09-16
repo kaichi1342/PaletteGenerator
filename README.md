@@ -230,6 +230,10 @@ if not enable it by going to Settings -> Configure Krita -> **Python Plugin Mana
 
 ### Release Log
 
+2023-09-09 : Version 0.1.4
+- Added border for selected color
+- Fix error in randomizer
+
 2023-09-09  : Version 0.1.3b
 - Change setupColor to use MangeColor.fromQcolor
 

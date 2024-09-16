@@ -27,7 +27,7 @@ from datetime import datetime
 
 from PyQt5.QtCore import ( pyqtSignal)
 
-from PyQt5.QtGui import (QPainter, QColor)
+from PyQt5.QtGui import (QPainter, QColor, QPen)
 
 from PyQt5.QtWidgets import (QWidget, QMessageBox, QLabel)
  
@@ -37,6 +37,7 @@ class ColorBox(QWidget):
     
     def __init__(self):  
         self.color = QColor(200, 200, 200)
+        self.border = 0
         super().__init__() 
  
     def paintEvent(self, e):
@@ -47,8 +48,28 @@ class ColorBox(QWidget):
 
     def drawRectangles(self):  
         self.qp.setBrush(self.color)
-        self.qp.drawRect(-1, -1, self.geometry().width()+1, self.geometry().height()+1)
+        if(self.border == 0):
+            self.qp.drawRect(-1, -1, self.geometry().width()+1, self.geometry().height()+1)
+            return True
+        
+        self.qp.setPen( QPen(QColor(235, 235, 235), 1) )
+        self.qp.drawRect(0, 0, self.geometry().width()-1, self.geometry().height()-1)
+        return True 
  
+    def getPenColor(self):
+        if self.color.value() > 200:
+            return QPen(QColor(200, 200, 100), 1)
+        elif self.color.value() > 150:
+            return QPen(QColor(200, 200, 100), 1)
+        else:
+            return QPen(QColor(220, 220, 220), 1) 
+
+    def setBorder(self, border, pen_color = QColor(220,220,220)):
+        if border == 0 : 
+            self.border = 0
+            return True 
+        self.border = 1
+
     def setQColor(self, color):
         self.color = color
         self.update()

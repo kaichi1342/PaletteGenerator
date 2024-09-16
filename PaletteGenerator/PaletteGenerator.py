@@ -88,7 +88,8 @@ class PaletteGenerator(DockWidget):
         self.grid_count  = 4
 
         self.color_manager = ColorGenerator(self)   
-        self.color_grid = [] 
+        self.color_grid = []
+        self.last_color = None 
 
         self.setting_dialog = None
         self.hsv_dialog = None
@@ -106,6 +107,19 @@ class PaletteGenerator(DockWidget):
         self.json_setting = open(os.path.dirname(os.path.realpath(__file__)) + '/settings.json')
         self.settings = json.load(self.json_setting)
         self.json_setting.close() 
+
+        self.settings["color_variance"] = int(math.floor(self.settings["color_variance"])) 
+
+        self.settings["saturation_cutoff"]["low"]   = int(math.floor(self.settings["saturation_cutoff"]["low"]))  
+        self.settings["saturation_cutoff"]["mid"]   = int(math.floor(self.settings["saturation_cutoff"]["mid"]))  
+        self.settings["saturation_cutoff"]["high"]  = int(math.floor(self.settings["saturation_cutoff"]["high"]))  
+        self.settings["saturation_cutoff"]["lim"]   = int(math.floor(self.settings["saturation_cutoff"]["lim"]))  
+
+        self.settings["value_cutoff"]["low"]        = int(math.floor(self.settings["value_cutoff"]["low"]))  
+        self.settings["value_cutoff"]["mid"]        = int(math.floor(self.settings["value_cutoff"]["mid"]))  
+        self.settings["value_cutoff"]["high"]       = int(math.floor(self.settings["value_cutoff"]["high"]))  
+        self.settings["value_cutoff"]["lim"]        = int(math.floor(self.settings["value_cutoff"]["lim"]))  
+
 
     def setUI(self):
         self.base_widget = QWidget()
@@ -241,8 +255,18 @@ class PaletteGenerator(DockWidget):
         
 
     def setFGColor(self, color_box):   
+        if(self.last_color != None): 
+            self.last_color.setBorder(0) 
+            self.last_color.update()
+           
+        
         color_to_set = color_box.getColorForSet(Krita.instance().activeDocument(),  Krita.instance().activeWindow().activeView().canvas())
         Krita.instance().activeWindow().activeView().setForeGroundColor(color_to_set)
+      
+        color_box.setBorder(1) 
+        color_box.update()
+        self.last_color = color_box
+        
  
 
     def toggleUseFG(self):
@@ -361,11 +385,11 @@ class PaletteGenerator(DockWidget):
 
 
     def calc_interval(self, start, end, count, floor = 5):
-        interval = ( end - start ) // count
+        interval = math.floor( ( end - start ) // count )
         if interval < floor: 
-            return floor 
+            return int( floor ) 
         else:
-            return interval
+            return int( interval )
 
 
     def getHSV(self, colmgr):
@@ -428,7 +452,7 @@ class PaletteGenerator(DockWidget):
  
         self.main_color.setQColor(m_color)
          
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]] 
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
         for r in range(0,  self.grid_count):
             random.seed() 
             self.color_grid[r][0].setColorHSV( cm.setHue(hsv["hue"], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())
@@ -472,7 +496,8 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hsv["hue"] +  random.randint(25,60))) 
         random.shuffle(hues)
 
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+         
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
@@ -502,7 +527,8 @@ class PaletteGenerator(DockWidget):
 
         comp_color = cm.setHue(hsv["hue"] + 180) 
      
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+          
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
@@ -529,9 +555,9 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hsv["hue"] + (180 + random.randint(15,50))))
         hues.append(cm.setHue(hsv["hue"] + (180 - random.randint(15,50)))) 
         random.shuffle(hues)
- 
- 
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+  
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+          
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
@@ -563,9 +589,9 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hsv["hue"]  + (180 + random.randint(-5,5))))
         hues.append(cm.setHue(hues[0] + (180 - random.randint(-5,5))))  
         random.shuffle(hues)  
-
-
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+ 
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+           
         for r in range(0,  self.grid_count):
             for c in range(0,  2): 
                 random.seed() 
@@ -599,8 +625,8 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hues[0] + 120)) 
         random.shuffle(hues)  
         
-        
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+         
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
@@ -633,8 +659,8 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hues[1] + 90)) 
         random.shuffle(hues)  
         
-        
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+           
         for r in range(0,  self.grid_count):
             for c in range(0,  2): 
                 random.seed() 
@@ -674,7 +700,8 @@ class PaletteGenerator(DockWidget):
 
         random.shuffle(hues)  
         
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+          
         for r in range(0,  self.grid_count):
             for c in range(0,  2): 
                 random.seed() 
