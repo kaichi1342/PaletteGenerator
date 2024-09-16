@@ -45,10 +45,11 @@ class DoubleSpinBox(QDoubleSpinBox):
     def __init__(self):
          super(QDoubleSpinBox, self).__init__() 
     
-    def __init__(self, low = 0, high = 0, step = 0):
+    def __init__(self, low = 0, high = 0, step = 0, precision = 2):
         super(QDoubleSpinBox, self).__init__() 
         self.setRange(low, high)
         self.setSingleStep(step)
+        self.setDecimals(precision)
 
     def stepBy(self, step):
         value = self.value()
@@ -60,6 +61,9 @@ class DoubleSpinBox(QDoubleSpinBox):
         value = self.value() 
         super(DoubleSpinBox, self).focusOutEvent(e)
         self.stepChanged.emit()
+
+    def setPrecision(self, e):
+        self.setDecimals(e)
 
 class SettingsDialog(QDialog):
     def __init__(self, parent, title = "" ):
@@ -100,14 +104,14 @@ class SettingsDialog(QDialog):
         self.combo_sat.setToolTip("Set Color Saturation RNG Priority")
         self.combo_val.setToolTip("Set Color Value RNG Priority")     
         
-        self.dsb_sat_low  = DoubleSpinBox(1,255,1)
-        self.dsb_sat_mid  = DoubleSpinBox(1,255,1)
-        self.dsb_sat_high = DoubleSpinBox(1,255,1)
-        self.dsb_sat_lim  = DoubleSpinBox(1,255,1)
-        self.dsb_val_low  = DoubleSpinBox(1,255,1)
-        self.dsb_val_mid  = DoubleSpinBox(1,255,1)
-        self.dsb_val_high = DoubleSpinBox(1,255,1)
-        self.dsb_val_lim  = DoubleSpinBox(1,255,1)
+        self.dsb_sat_low  = DoubleSpinBox(1,255,1,0)
+        self.dsb_sat_mid  = DoubleSpinBox(1,255,1,0)
+        self.dsb_sat_high = DoubleSpinBox(1,255,1,0)
+        self.dsb_sat_lim  = DoubleSpinBox(1,255,1,0)
+        self.dsb_val_low  = DoubleSpinBox(1,255,1,0)
+        self.dsb_val_mid  = DoubleSpinBox(1,255,1,0)
+        self.dsb_val_high = DoubleSpinBox(1,255,1,0)
+        self.dsb_val_lim  = DoubleSpinBox(1,255,1,0)
 
         self.dsb_sat_low.setToolTip("Saturation Lower Bound Start")
         self.dsb_sat_mid.setToolTip("Saturation Mid Bound Start")
@@ -119,7 +123,7 @@ class SettingsDialog(QDialog):
         self.dsb_val_lim.setToolTip("Value Upper Bound Limit") 
  
         self.label_variance = QLabel("Group Color Variance")
-        self.dsb_color_variance = DoubleSpinBox(2,90,1)
+        self.dsb_color_variance = DoubleSpinBox(2,90,1,0)
 
 
         self.roll_container.addWidget(self.label_sat, 2, 0, 1, 8)

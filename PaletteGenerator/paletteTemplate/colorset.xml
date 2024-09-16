@@ -1,114 +1,114 @@
-<ColorSet version="2.0" rows="4" columns="7" name="BrightPinks" comment="">
-  <ColorSetEntry spot="true" id="pink_r0c0"  name="pink_r0c0" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9647058823529412" g="0.7339284351873044" b="0.8224002441443503"/>
+<ColorSet version="2.0" rows="4" columns="7" name="candy" comment="">
+  <ColorSetEntry spot="true" id="green_r0c0"  name="green_r0c0" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.7931486991683833" g="0.9215686274509803" b="0.7336385137712672"/>
     <Position row="0" column="0"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r1c0"  name="pink_r1c0" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9647058823529412" g="0.7339284351873044" b="0.8224002441443503"/>
+  <ColorSetEntry spot="true" id="green_r1c0"  name="green_r1c0" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.7931486991683833" g="0.9215686274509803" b="0.7336385137712672"/>
     <Position row="1" column="0"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r2c0"  name="pink_r2c0" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9647058823529412" g="0.7339284351873044" b="0.8224002441443503"/>
+  <ColorSetEntry spot="true" id="green_r2c0"  name="green_r2c0" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.7931486991683833" g="0.9215686274509803" b="0.7336385137712672"/>
     <Position row="2" column="0"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r3c0"  name="pink_r3c0" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9647058823529412" g="0.7339284351873044" b="0.8224002441443503"/>
+  <ColorSetEntry spot="true" id="green_r3c0"  name="green_r3c0" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.7931486991683833" g="0.9215686274509803" b="0.7336385137712672"/>
     <Position row="3" column="0"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r0c1"  name="pink_r0c1" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9450980392156862" g="0.5893034256504158" b="0.6782482642862593"/>
+  <ColorSetEntry spot="true" id="yellow_r0c1"  name="yellow_r0c1" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.8839856565194171" g="0.9019607843137255" b="0.6861982146944381"/>
     <Position row="0" column="1"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="red_r0c2"  name="red_r0c2" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9725490196078431" g="0.6837720302128634" b="0.6788738841840238"/>
+  <ColorSetEntry spot="true" id="yellow_r0c2"  name="yellow_r0c2" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.984313725490196" g="0.8824139772640573" b="0.4284733348592355"/>
     <Position row="0" column="2"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r0c3"  name="pink_r0c3" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9607843137254902" g="0.6405279621576256" b="0.8059967956054017"/>
+  <ColorSetEntry spot="true" id="green_r0c3"  name="green_r0c3" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.6549019607843137" g="1.0" b="0.9022201876859693"/>
     <Position row="0" column="3"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r0c4"  name="pink_r0c4" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9411764705882353" g="0.668055237659266" b="0.8091706721599146"/>
+  <ColorSetEntry spot="true" id="pink_r0c4"  name="pink_r0c4" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.9058823529411765" g="0.6749675745784696" b="0.767330434119173"/>
     <Position row="0" column="4"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r0c5"  name="pink_r0c5" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9411764705882353" g="0.6828107118333715" b="0.8292210269321737"/>
+  <ColorSetEntry spot="true" id="red_r0c5"  name="red_r0c5" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.9019607843137255" g="0.45275043869687953" b="0.4976729991607538"/>
     <Position row="0" column="5"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="orange_r0c6"  name="orange_r0c6" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9450980392156862" g="0.8672617685206379" b="0.7783169298847944"/>
+  <ColorSetEntry spot="true" id="magenta_r0c6"  name="magenta_r0c6" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.9294117647058824" g="0.11662470435645075" b="0.9294117647058824"/>
     <Position row="0" column="6"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r1c1"  name="pink_r1c1" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9647058823529412" g="0.7642023346303501" b="0.8778210116731517"/>
+  <ColorSetEntry spot="true" id="green_r1c1"  name="green_r1c1" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.8221408407721065" g="0.9529411764705882" b="0.3923857480735485"/>
     <Position row="1" column="1"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="red_r1c2"  name="red_r1c2" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9529411764705882" g="0.5456015869382772" b="0.5795529106584268"/>
+  <ColorSetEntry spot="true" id="green_r1c2"  name="green_r1c2" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.41522850385290305" g="0.9803921568627451" b="0.8202639810788128"/>
     <Position row="1" column="2"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="magenta_r1c3"  name="magenta_r1c3" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9764705882352941" g="0.7658655680170902" b="0.9519035629816128"/>
+  <ColorSetEntry spot="true" id="green_r1c3"  name="green_r1c3" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.7812314030670634" g="0.996078431372549" b="0.8635996032654307"/>
     <Position row="1" column="3"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="magenta_r1c4"  name="magenta_r1c4" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9450980392156862" g="0.7783169298847944" b="0.8756084534981308"/>
+  <ColorSetEntry spot="true" id="red_r1c4"  name="red_r1c4" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.9176470588235294" g="0.5181963836118105" b="0.6047455558098725"/>
     <Position row="1" column="4"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="magenta_r1c5"  name="magenta_r1c5" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9725490196078431" g="0.5720912489509422" b="0.8190432593270771"/>
+  <ColorSetEntry spot="true" id="purple_r1c5"  name="purple_r1c5" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.6733653772793164" g="0.4831311512932021" b="0.9058823529411765"/>
     <Position row="1" column="5"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="red_r1c6"  name="red_r1c6" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9725490196078431" g="0.4096742198825055" b="0.35851071946288243"/>
+  <ColorSetEntry spot="true" id="magenta_r1c6"  name="magenta_r1c6" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.9098039215686274" g="0.46382848859388115" b="0.8206149385824368"/>
     <Position row="1" column="6"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="magenta_r2c1"  name="magenta_r2c1" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9607843137254902" g="0.5463340199893186" b="0.8364538033112078"/>
+  <ColorSetEntry spot="true" id="green_r2c1"  name="green_r2c1" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.7149919890135042" g="0.9098039215686274" b="0.46025787747005414"/>
     <Position row="2" column="1"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r2c2"  name="pink_r2c2" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9764705882352941" g="0.543755245288777" b="0.7312733653772793"/>
+  <ColorSetEntry spot="true" id="green_r2c2"  name="green_r2c2" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.4528114747844663" g="1.0" b="0.3686274509803922"/>
     <Position row="2" column="2"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="red_r2c3"  name="red_r2c3" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9607843137254902" g="0.5953154802777142" b="0.6440375371938659"/>
+  <ColorSetEntry spot="true" id="green_r2c3"  name="green_r2c3" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.7049362935835813" g="0.9333333333333333" b="0.40627145799954223"/>
     <Position row="2" column="3"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="purple_r2c4"  name="purple_r2c4" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.8494850080109865" g="0.6369268329900053" b="0.9725490196078431"/>
+  <ColorSetEntry spot="true" id="blue_r2c4"  name="blue_r2c4" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.8312504768444343" g="0.8238040741588464" b="0.9725490196078431"/>
     <Position row="2" column="4"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="magenta_r2c5"  name="magenta_r2c5" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9607843137254902" g="0.7196459906919966" b="0.9567711909666591"/>
+  <ColorSetEntry spot="true" id="magenta_r2c5"  name="magenta_r2c5" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.9647058823529412" g="0.049179827573052566" b="0.6290074006256199"/>
     <Position row="2" column="5"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="orange_r2c6"  name="orange_r2c6" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9725490196078431" g="0.7067215991454948" b="0.65981536583505"/>
+  <ColorSetEntry spot="true" id="pink_r2c6"  name="pink_r2c6" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.9411764705882353" g="0.7824673838406958" b="0.8327306019684139"/>
     <Position row="2" column="6"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="magenta_r3c1"  name="magenta_r3c1" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9647058823529412" g="0.5372091248950942" b="0.8792095826657511"/>
+  <ColorSetEntry spot="true" id="green_r3c1"  name="green_r3c1" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.694193942168307" g="0.9568627450980393" b="0.8430457007705806"/>
     <Position row="3" column="1"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r3c2"  name="pink_r3c2" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9450980392156862" g="0.7746089875638972" b="0.8285954070344091"/>
+  <ColorSetEntry spot="true" id="green_r3c2"  name="green_r3c2" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.8274204623483634" g="0.9294117647058824" b="0.6633401998931868"/>
     <Position row="3" column="2"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="pink_r3c3"  name="pink_r3c3" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.24705882352941178" g="0.18698405432211795" b="0.20500495918211642"/>
+  <ColorSetEntry spot="true" id="green_r3c3"  name="green_r3c3" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.7331654840924696" g="0.9490196078431372" b="0.8303044174868391"/>
     <Position row="3" column="3"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="purple_r3c4"  name="purple_r3c4" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.7668879224841688" g="0.5228809033340963" b="0.9803921568627451"/>
+  <ColorSetEntry spot="true" id="magenta_r3c4"  name="magenta_r3c4" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.9153429465171282" g="0.7437094682230869" b="0.9725490196078431"/>
     <Position row="3" column="4"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="magenta_r3c5"  name="magenta_r3c5" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.9490196078431372" g="0.5284809643701839" b="0.8579079880979629"/>
+  <ColorSetEntry spot="true" id="blue_r3c5"  name="blue_r3c5" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.8365300984206913" g="0.9143358510719463" b="0.9921568627450981"/>
     <Position row="3" column="5"/>
   </ColorSetEntry>
-  <ColorSetEntry spot="true" id="red_r3c6"  name="red_r3c6" bitdepth="U8">
-    <RGB space="sRGB-elle-V2-srgbtrc.icc" r="0.2980392156862745" g="0.1893492027161059" b="0.19478141451132983"/>
+  <ColorSetEntry spot="true" id="magenta_r3c6"  name="magenta_r3c6" bitdepth="F16">
+    <RGB space="sRGB-elle-V2-g10.icc" r="0.9420004577706569" g="0.562905317769131" b="0.9764705882352941"/>
     <Position row="3" column="6"/>
   </ColorSetEntry>
 </ColorSet>

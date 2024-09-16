@@ -22,8 +22,9 @@
     
   
  
+
 from krita import *
-import  os,random, json
+import math, os,random, json
 from datetime import datetime
 from functools import partial
 
@@ -37,13 +38,13 @@ from PyQt5.QtWidgets import (
         QToolButton, QDesktopWidget, QPlainTextEdit  
 )
 
+from PaletteGenerator.PG_AnimeShadePicker import AnimeShadePicker
 
 from .PG_ColorManager import * 
 from .PG_SettingsDialog import *
 from .PG_HSVOutput import *
 from .PG_SavePalette import *
-
-#from .GLColorBox  import GLColorBox
+ 
 
 DOCKER_NAME = 'PaletteGenerator'
 DOCKER_ID = 'pykrita_PaletteGenerator'
@@ -58,7 +59,7 @@ class PaletteGenerator(DockWidget):
         self.scheme = [
             "Monochromatic", "Accented Achromatic", "Analogous", 
             "Complementary", "Split Complementary", "Double Split Complementary",
-            "Triadic", "Tetradic Square", "Tetradic Rectangle"
+            "Triadic", "Tetradic Square", "Tetradic Rectangle" #, "Anime Shade Picker"
         ]
         self.settings = {
             "color_scheme"       : 1,
@@ -66,13 +67,13 @@ class PaletteGenerator(DockWidget):
             "saturation_priority": "Normal",
             "value_priority"     : "Normal",
             "saturation_cutoff"   : {
-                "low" : 0,
+                "low" : 10,
                 "mid" : 150,
                 "high": 220,
                 "lim" : 255
             },
             "value_cutoff": {
-                "low" : 0,
+                "low" : 10,
                 "mid" : 180,
                 "high": 230,
                 "lim" : 255
@@ -86,8 +87,9 @@ class PaletteGenerator(DockWidget):
         self.color_count = 6
         self.grid_count  = 4
 
-        self.color_manager = ColorGenerator(self, self.settings)   
-        self.color_grid = [] 
+        self.color_manager = ColorGenerator(self)   
+        self.color_grid = []
+        self.last_color = None 
 
         self.setting_dialog = None
         self.hsv_dialog = None
@@ -105,6 +107,19 @@ class PaletteGenerator(DockWidget):
         self.json_setting = open(os.path.dirname(os.path.realpath(__file__)) + '/settings.json')
         self.settings = json.load(self.json_setting)
         self.json_setting.close() 
+
+        self.settings["color_variance"] = int(math.floor(self.settings["color_variance"])) 
+
+        self.settings["saturation_cutoff"]["low"]   = int(math.floor(self.settings["saturation_cutoff"]["low"]))  
+        self.settings["saturation_cutoff"]["mid"]   = int(math.floor(self.settings["saturation_cutoff"]["mid"]))  
+        self.settings["saturation_cutoff"]["high"]  = int(math.floor(self.settings["saturation_cutoff"]["high"]))  
+        self.settings["saturation_cutoff"]["lim"]   = int(math.floor(self.settings["saturation_cutoff"]["lim"]))  
+
+        self.settings["value_cutoff"]["low"]        = int(math.floor(self.settings["value_cutoff"]["low"]))  
+        self.settings["value_cutoff"]["mid"]        = int(math.floor(self.settings["value_cutoff"]["mid"]))  
+        self.settings["value_cutoff"]["high"]       = int(math.floor(self.settings["value_cutoff"]["high"]))  
+        self.settings["value_cutoff"]["lim"]        = int(math.floor(self.settings["value_cutoff"]["lim"]))  
+
 
     def setUI(self):
         self.base_widget = QWidget()
@@ -181,16 +196,13 @@ class PaletteGenerator(DockWidget):
 
         self.main_container.addWidget(self.colorbox_widget)  
  
-        #self.test =  QPlainTextEdit() 
-
+        #self.test =  QLabel() 
         #self.main_container.addWidget(self.test)  
 
         #COLOR SCHEME 
         for scheme in self.scheme: self.combo_color_opt.addItem(scheme)  
         self.combo_color_opt.setCurrentIndex(self.settings["color_scheme"])
- 
-
-
+  
     def canvasChanged(self, canvas):
         if canvas:       
             if canvas.view():
@@ -243,8 +255,18 @@ class PaletteGenerator(DockWidget):
         
 
     def setFGColor(self, color_box):   
+        if(self.last_color != None): 
+            self.last_color.setBorder(0) 
+            self.last_color.update()
+           
+        
         color_to_set = color_box.getColorForSet(Krita.instance().activeDocument(),  Krita.instance().activeWindow().activeView().canvas())
         Krita.instance().activeWindow().activeView().setForeGroundColor(color_to_set)
+      
+        color_box.setBorder(1) 
+        color_box.update()
+        self.last_color = color_box
+        
  
 
     def toggleUseFG(self):
@@ -325,6 +347,8 @@ class PaletteGenerator(DockWidget):
             self.generateTetradicSquare(cm)
         elif(self.combo_color_opt.currentIndex() == 8):
             self.generateTetradicRectangle(cm)
+        elif(self.combo_color_opt.currentIndex() == 9):
+            self.generateAnimeShadePicker(cm)
         else:
             pass
 
@@ -361,28 +385,34 @@ class PaletteGenerator(DockWidget):
 
 
     def calc_interval(self, start, end, count, floor = 5):
-        interval = ( end - start ) // count
+        interval = math.floor( ( end - start ) // count )
         if interval < floor: 
-            return floor 
+            return int( floor ) 
         else:
-            return interval
+            return int( interval )
 
 
     def getHSV(self, colmgr):
         if(self.useFG == True):
             FG = colmgr.getFGColor(Krita.instance().activeWindow().activeView(), Krita.instance().activeDocument(), Krita.instance().activeWindow().activeView().canvas())
-            return { "hue" : FG.hsvHue(), "sat" : FG.hsvSaturation(), "val" : FG.value() }
+            return FG
         else:
-            random.seed()
-            return { "hue" : colmgr.setHue(), "sat" : colmgr.setSat(), "val" : colmgr.setVal() }
+            random.seed() 
+            
+            newColor = QColor()
+            newColor.setHsv(colmgr.setHue(), colmgr.setSat(), colmgr.setVal(),  255)
+            
+            return newColor
+ 
 
      
     #Palette Generator
     def generateMonochromatic(self, cm): 
 
-        hsv = self.getHSV(cm)   
-        
-        self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"])  
+        m_color = self.getHSV(cm)   
+        hsv = {"hue" : m_color.hue(), "sat" : m_color.saturation(), "val" : m_color.value()}
+         
+        self.main_color.setQColor(m_color)
 
         i_val  = self.calc_interval(self.settings["value_cutoff"]["low"], self.settings["value_cutoff"]["lim"], self.color_count, 2)    
         val    = [ self.settings["value_cutoff"]["low"] ,  i_val + self.settings["value_cutoff"]["low"] ]
@@ -390,7 +420,6 @@ class PaletteGenerator(DockWidget):
         i_sat  = self.calc_interval(self.settings["saturation_cutoff"]["low"], self.settings["saturation_cutoff"]["lim"], 4, 2)    
         sat    = [ self.settings["saturation_cutoff"]["low"],  self.settings["saturation_cutoff"]["low"] + i_sat ]
       
-
         #remove cut_off for monochromatic. 
         for c in range(0,  self.color_count):
             self.color_grid[0][c].setColorHSV( cm.setHue(hsv["hue"],  random.randint(-5, -1)), cm.setSat(random.randint(sat[0], sat[1])), cm.setVal(random.randint(val[0], val[1])) ) 
@@ -418,11 +447,12 @@ class PaletteGenerator(DockWidget):
 
     def generateAccentedAchromatic(self, cm):
         
-        hsv = self.getHSV(cm)  
-
-        self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"]) 
+        m_color = self.getHSV(cm)   
+        hsv = {"hue" : m_color.hue(), "sat" : m_color.saturation(), "val" : m_color.value()}  
+ 
+        self.main_color.setQColor(m_color)
          
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]] 
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
         for r in range(0,  self.grid_count):
             random.seed() 
             self.color_grid[r][0].setColorHSV( cm.setHue(hsv["hue"], random.randint(cv[0],cv[1])), cm.setSat(), cm.setVal())
@@ -455,9 +485,10 @@ class PaletteGenerator(DockWidget):
 
     def generateAnalogous(self, cm): 
         
-        hsv = self.getHSV(cm)  
+        m_color = self.getHSV(cm)   
+        hsv = {"hue" : m_color.hue(), "sat" : m_color.saturation(), "val" : m_color.value()}  
 
-        self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"]) 
+        self.main_color.setQColor(m_color)
 
         hues = []
         random.seed()
@@ -465,7 +496,8 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hsv["hue"] +  random.randint(25,60))) 
         random.shuffle(hues)
 
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+         
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
@@ -488,12 +520,15 @@ class PaletteGenerator(DockWidget):
 
     def generateComplementary(self, cm):
       
-        hsv = self.getHSV(cm)  
+        m_color = self.getHSV(cm)   
+        hsv = {"hue" : m_color.hue(), "sat" : m_color.saturation(), "val" : m_color.value()}  
          
-        self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"]) 
+        self.main_color.setQColor(m_color)
+
         comp_color = cm.setHue(hsv["hue"] + 180) 
      
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+          
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
@@ -510,18 +545,19 @@ class PaletteGenerator(DockWidget):
 
     def generateSplitComplementary(self, cm): 
 
-        hsv = self.getHSV(cm)  
+        m_color = self.getHSV(cm)   
+        hsv = {"hue" : m_color.hue(), "sat" : m_color.saturation(), "val" : m_color.value()}  
 
-        self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"]) 
+        self.main_color.setQColor(m_color)
         
         hues = []
         random.seed()
         hues.append(cm.setHue(hsv["hue"] + (180 + random.randint(15,50))))
         hues.append(cm.setHue(hsv["hue"] + (180 - random.randint(15,50)))) 
         random.shuffle(hues)
- 
- 
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+  
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+          
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
@@ -542,9 +578,10 @@ class PaletteGenerator(DockWidget):
 
     def generateDblSplitComplementary(self, cm):
      
-        hsv = self.getHSV(cm)  
+        m_color = self.getHSV(cm)   
+        hsv = {"hue" : m_color.hue(), "sat" : m_color.saturation(), "val" : m_color.value()}  
            
-        self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"])  
+        self.main_color.setQColor(m_color)
          
         hues = [] 
         random.seed() 
@@ -552,9 +589,9 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hsv["hue"]  + (180 + random.randint(-5,5))))
         hues.append(cm.setHue(hues[0] + (180 - random.randint(-5,5))))  
         random.shuffle(hues)  
-
-
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+ 
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+           
         for r in range(0,  self.grid_count):
             for c in range(0,  2): 
                 random.seed() 
@@ -577,9 +614,10 @@ class PaletteGenerator(DockWidget):
 
     def generateTriadic(self, cm):
          
-        hsv = self.getHSV(cm)  
+        m_color = self.getHSV(cm)   
+        hsv = {"hue" : m_color.hue(), "sat" : m_color.saturation(), "val" : m_color.value()}  
         
-        self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"])  
+        self.main_color.setQColor(m_color)
         
         hues = []  
         random.seed()
@@ -587,8 +625,8 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hues[0] + 120)) 
         random.shuffle(hues)  
         
-        
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+         
         for r in range(0,  self.grid_count):
             for c in range(0,  3): 
                 random.seed() 
@@ -609,10 +647,10 @@ class PaletteGenerator(DockWidget):
 
     def generateTetradicSquare(self, cm):
         
-        hsv = self.getHSV(cm)  
-        
-        
-        self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"])  
+        m_color = self.getHSV(cm)   
+        hsv = {"hue" : m_color.hue(), "sat" : m_color.saturation(), "val" : m_color.value()}  
+    
+        self.main_color.setQColor(m_color)
 
         hues = []  
         random.seed()
@@ -621,8 +659,8 @@ class PaletteGenerator(DockWidget):
         hues.append(cm.setHue(hues[1] + 90)) 
         random.shuffle(hues)  
         
-        
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+           
         for r in range(0,  self.grid_count):
             for c in range(0,  2): 
                 random.seed() 
@@ -646,11 +684,14 @@ class PaletteGenerator(DockWidget):
 
     def generateTetradicRectangle(self, cm):
          
-        hsv = self.getHSV(cm)  
+        m_color = self.getHSV(cm)   
+        hsv = {"hue" : m_color.hue(), "sat" : m_color.saturation(), "val" : m_color.value()}  
         
-        self.main_color.setColorHSV( hsv["hue"], hsv["sat"], hsv["val"])  
+        self.main_color.setQColor(m_color)
 
         hues = []
+        
+        random.seed() 
 
         dis =  random.randint(60,85) if random.randint(0,1) == 0 else  -1 * random.randint(60,85)
         hues.append(cm.setHue(hsv["hue"] + dis))
@@ -659,7 +700,8 @@ class PaletteGenerator(DockWidget):
 
         random.shuffle(hues)  
         
-        cv = [-1* self.settings["color_variance"],self.settings["color_variance"]]      
+        cv = [ math.floor(-1 * self.settings["color_variance"]), math.floor(self.settings["color_variance"]) ] 
+          
         for r in range(0,  self.grid_count):
             for c in range(0,  2): 
                 random.seed() 
@@ -680,9 +722,83 @@ class PaletteGenerator(DockWidget):
         self.printHSV() 
         cm.reloadSettings(self.settings)
     
+    def generateAnimeShadePicker(self, cm):
+         
+        m_color = self.getHSV(cm)   
+        hsv = {"hue" : m_color.hsvHue(), "sat" : m_color.hsvSaturation(), "val" : m_color.value()}  
+        
+        self.main_color.setQColor(m_color)
+
+        anime_picker = AnimeShadePicker(self)
+        
+        #MIDTONES
+        self.color_grid[0][0].setQColor(anime_picker.generateMidTone(m_color, True, True))
+        self.color_grid[1][0].setQColor(anime_picker.generateMidTone(m_color, True, True))
+        self.color_grid[2][0].setQColor(anime_picker.generateMidTone(m_color, False, True))
+        self.color_grid[3][0].setQColor(anime_picker.generateMidTone(m_color, False, True))
+
+        base_color =  self.color_grid[0][0].color
+        
+        # LIGHTTONE NOT SHIFTED
+        # self.color_grid[3][1].setQColor(anime_picker.generateLightTone(base_color, base_color.hsvSaturation(), base_color.value()))
+        # self.color_grid[2][1].setQColor(anime_picker.generateLightTone(self.color_grid[3][1].color, base_color.hsvSaturation(), base_color.value()))
+        # self.color_grid[1][1].setQColor(anime_picker.generateLightTone(self.color_grid[2][1].color, base_color.hsvSaturation(), base_color.value()))
+        # self.color_grid[0][1].setQColor(anime_picker.generateLightTone(self.color_grid[1][1].color, base_color.hsvSaturation(), base_color.value()))
+
+        # LIGHTTONE SHIFTED
+        # self.color_grid[3][2].setQColor(anime_picker.generateLightTone(base_color, base_color.hsvSaturation(), base_color.value(), random.randint(5, 10) ))
+        # self.color_grid[2][2].setQColor(anime_picker.generateLightTone(self.color_grid[3][2].color, base_color.hsvSaturation(), base_color.value(), random.randint(5, 10) ))
+        # self.color_grid[1][2].setQColor(anime_picker.generateLightTone(self.color_grid[2][2].color, base_color.hsvSaturation(), base_color.value(), random.randint(5, 10) ))
+        # self.color_grid[0][2].setQColor(anime_picker.generateLightTone(self.color_grid[1][2].color, base_color.hsvSaturation(), base_color.value(), random.randint(5, 10) ))
+        
+        # DARKTONE NOT SHIFTED
+        # self.color_grid[0][3].setQColor(anime_picker.generateDarkTone(base_color, base_color.hsvSaturation(), base_color.value()))
+        # self.color_grid[1][3].setQColor(anime_picker.generateDarkTone(self.color_grid[0][3].color, base_color.hsvSaturation(), base_color.value()))
+        # self.color_grid[2][3].setQColor(anime_picker.generateDarkTone(self.color_grid[1][3].color, base_color.hsvSaturation(), base_color.value()))
+        # self.color_grid[3][3].setQColor(anime_picker.generateDarkTone(self.color_grid[2][3].color, base_color.hsvSaturation(), base_color.value()))
+
+        # DARKTONE SHIFTED
+        # self.color_grid[0][4].setQColor(anime_picker.generateDarkTone(base_color, base_color.hsvSaturation(), base_color.value(), random.randint(20, 30) ))
+        # self.color_grid[1][4].setQColor(anime_picker.generateDarkTone(self.color_grid[0][4].color, base_color.hsvSaturation(), base_color.value(), random.randint(5, 10) ))
+        # self.color_grid[2][4].setQColor(anime_picker.generateDarkTone(self.color_grid[1][4].color, base_color.hsvSaturation(), base_color.value(), random.randint(5, 10) ))
+        # self.color_grid[3][4].setQColor(anime_picker.generateDarkTone(self.color_grid[2][4].color, base_color.hsvSaturation(), base_color.value(), random.randint(5, 10) ))
+
+
+        #ANAlOGS AND COMPLEMENTS
+
+    #----------------------------------#
+    #  HSV CALCULATIONS                #
+    #----------------------------------#
+
+    def distanceFrom(self, end, start, div = 1, max = 20, min = 2, is_val = False):
+        distance = abs(end - start)
+        
+        if(div <= 1): return distance 
+
+        distance = math.floor(distance / div)
+        distance = distance if is_val == True and start > 50 else min
+        
+        if( abs(distance) >= max): return max
+
+        if( abs(distance) <= min): return min
+
+        return distance
+
+    def accessOffset(self, hue, is_cold):
+        min = 20
+        max = 35
+
+        color_max = 210  #The Hue where the side for cold and warm will switch
+
+        if(hue <= 5 or hue > color_max):
+            return -1 * self.distanceFrom(color_max, hue, 2, max, min) if is_cold else self.distanceFrom(color_max, hue, 2, max, min) 
+        else:
+            return self.distanceFrom(color_max, hue, 2, max, min) if is_cold else -1 * self.distanceFrom(color_max, hue, 2, max, min)  
+
     def printHSV(self): 
         if self.hsv_dialog :
            self.hsv_dialog.printHSV()
+
 
 instance = Krita.instance()
 dock_widget_factory = DockWidgetFactory(DOCKER_ID,
