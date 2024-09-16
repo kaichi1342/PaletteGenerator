@@ -209,7 +209,7 @@ This plugin main function  are;
 ## Downloads - Install - Execute 
 
 ### Download
-- **[ZIP](https://github.com/kaichi1342/PaletteGenerator/archive/refs/heads/v.0.1.3b.zip)**
+- **[ZIP](https://github.com/kaichi1342/PaletteGenerator/archive/refs/heads/v.0.1.4.zip)**
 - **[Source](https://github.com/kaichi1342/PaletteGenerator)**
 
 ### Install
