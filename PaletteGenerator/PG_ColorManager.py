@@ -25,11 +25,11 @@ from krita import *
 import random, time
 from datetime import datetime
 
-from PyQt5.QtCore import ( pyqtSignal)
+from PyQt6.QtCore import ( pyqtSignal)
 
-from PyQt5.QtGui import (QPainter, QColor, QPen)
+from PyQt6.QtGui import (QPainter, QColor, QPen)
 
-from PyQt5.QtWidgets import (QWidget, QMessageBox, QLabel)
+from PyQt6.QtWidgets import (QWidget, QMessageBox, QLabel)
  
 
 class ColorBox(QWidget):

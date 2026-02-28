@@ -24,7 +24,7 @@
 from krita import *  
 import random, math 
 
-from PyQt5.QtGui import (QColor)
+from PyQt6.QtGui import (QColor)
 
 from .PG_ColorManager import * 
 

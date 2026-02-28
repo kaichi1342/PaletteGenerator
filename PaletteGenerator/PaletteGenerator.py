@@ -29,13 +29,13 @@ from datetime import datetime
 from functools import partial
 
  
-from PyQt5.QtCore import ( Qt, QSize,  QTimer, QPoint )
+from PyQt6.QtCore import ( Qt, QSize,  QTimer, QPoint )
  
 
-from PyQt5.QtWidgets import ( 
+from PyQt6.QtWidgets import ( 
         QVBoxLayout,  QGridLayout,  QHBoxLayout, 
         QPushButton, QWidget, QLabel, QComboBox,
-        QToolButton, QDesktopWidget, QPlainTextEdit  
+        QToolButton, QPlainTextEdit  
 )
 
 from PaletteGenerator.PG_AnimeShadePicker import AnimeShadePicker
@@ -317,7 +317,7 @@ class PaletteGenerator(DockWidget):
     def moveDialog(self, dialog):
         gp = self.mapToGlobal(QPoint(0, 0))     
          
-        if self.x() < ( QDesktopWidget().screenGeometry().width() // 2) : 
+        if self.x() < ( self.screen().geometry().width() // 2) : 
             dialog.move(gp.x() + self.frameGeometry().width() + 10, gp.y() + 30) 
         else:  
             dialog.move(gp.x() - (dialog.frameGeometry().width() + 5 )  , gp.y() + 30) 
@@ -803,10 +803,3 @@ class PaletteGenerator(DockWidget):
         if self.hsv_dialog :
            self.hsv_dialog.printHSV()
 
-
-instance = Krita.instance()
-dock_widget_factory = DockWidgetFactory(DOCKER_ID,
-                                        DockWidgetFactoryBase.DockRight,
-                                        PaletteGenerator)
-
-instance.addDockWidgetFactory(dock_widget_factory) 

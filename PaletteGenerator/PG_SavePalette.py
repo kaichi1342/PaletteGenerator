@@ -25,12 +25,12 @@
 from krita import *  
 import os, json, zipfile 
 
-#from PyQt5.QtCore import ( Qt, pyqtSignal, QEvent)
+#from PyQt6.QtCore import ( Qt, pyqtSignal, QEvent)
 
-#from PyQt5.QtGui import (QStandardItemModel)
+#from PyQt6.QtGui import (QStandardItemModel)
 
 
-from PyQt5.QtWidgets import ( 
+from PyQt6.QtWidgets import ( 
     QLabel, QHBoxLayout, QDialog, QWidget, QVBoxLayout, QLineEdit, QPushButton,
     QFileDialog, QMessageBox
 ) 
@@ -134,7 +134,7 @@ class SavePaletteDialog(QDialog):
         #self.main_container.addWidget(self.label_test) 
 
         self.dlg = QFileDialog()
-        self.dlg.setFileMode(QFileDialog.AnyFile)
+        self.dlg.setFileMode(QFileDialog.FileMode.AnyFile)
  
         self.button_save.clicked.connect(lambda: self.savePalette(""))
         self.button_export.clicked.connect(self.browseDirectory)

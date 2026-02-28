@@ -1,16 +1,16 @@
 {
-    "color_scheme": 2,
-    "color_variance": 70.0,
-    "saturation_priority": "High",
-    "value_priority": "Low Only",
+    "color_scheme": 8,
+    "color_variance": 70,
+    "saturation_priority": "Low",
+    "value_priority": "High",
     "saturation_cutoff": {
-        "low": 1,
+        "low": 0,
         "mid": 150,
         "high": 230,
         "lim": 255
     },
     "value_cutoff": {
-        "low": 4,
+        "low": 0,
         "mid": 182,
         "high": 230,
         "lim": 255
