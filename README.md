@@ -209,8 +209,13 @@ This plugin main function  are;
 ## Downloads - Install - Execute 
 
 ### Download
-- **[ZIP](https://github.com/kaichi1342/PaletteGenerator/archive/refs/heads/v.0.1.4.zip)**
 - **[Source](https://github.com/kaichi1342/PaletteGenerator)**
+
+For Krita 5.2.x
+- **[V.0.1.4 - ZIP](https://github.com/kaichi1342/PaletteGenerator/archive/refs/heads/v.0.1.4.zip)**
+
+For Krita 6.x
+- **[V.0.1.4b - ZIP](https://github.com/kaichi1342/PaletteGenerator/archive/refs/heads/v.0.1.4b.zip)**
 
 ### Install
 
@@ -227,8 +232,13 @@ if not enable it by going to Settings -> Configure Krita -> **Python Plugin Mana
 
 ### Tested Platforms
 - Krita 5.1.4
+- Krita 5.2.x
+- Krita 6.0 beta 2
 
 ### Release Log
+
+2026-02-28 : Version 0.1.4b
+- Port to Qt6 for Krita 6.0 Beta
 
 2023-09-09 : Version 0.1.4
 - Added border for selected color
